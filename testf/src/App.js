@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client'
-const socket   = io.connect('http://localhost:5000')
+const socket   = io.connect('http://localhost:5000/test')
+const socket2 = io.connect('http://localhost:5000/chat')
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
       username:''
-    }
+    };
   }
 
-  setSocketListeners(){
-    socket.on('test', (data)=>{
+  setSocketListeners = ()=>{
+    console.log('locate me socket');
+    socket.on('connect', ()=>{
+      socket.emit('my event', {data:'I\'m connected!'})
+    })
+    socket2.on('my response', (data)=>{
       console.log(data)
     })
   }
